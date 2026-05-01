@@ -1,0 +1,8 @@
+{
+  "tasks": {
+    "start": "deno run -A src/mod.ts"
+  },
+  "imports": {
+    "@roka/github": "jsr:@roka/github@^0.3.1"
+  }
+}
