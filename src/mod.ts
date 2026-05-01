@@ -40,5 +40,5 @@ async function updatePackages(list: string[], version: string) {
 const newVersion = await getLatestVer();
 
 if (newVersion !== curVersion) {
-  updatePackages(pkgList, newVersion);
+  await updatePackages(pkgList, newVersion);
 }
