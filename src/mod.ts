@@ -1,4 +1,5 @@
 import { github } from '@roka/github';
+import { config } from '../config.ts';
 
 const pkgList = [
   'advancely',
@@ -6,6 +7,7 @@ const pkgList = [
 ]
 
 const curVersion = Deno.readTextFileSync(`aur/${pkgList[0]}/PKGBUILD`).split('\n')[3].split('=')[1];
+const webhookUrl = config.webhookUrl;
 
 async function getLatestVer() {
   const repo = github().repos.get('LNXSeus', 'Advancely');
@@ -34,11 +36,26 @@ async function updatePackages(list: string[], version: string) {
     const child = command.spawn();
 
     const _status = await child.status;
+
+    await sendWebhookMessage(pkg, newVersion);
   }
+}
+
+async function sendWebhookMessage(pkg: string, version: string) {
+  const _resp = await fetch(webhookUrl, {
+    method: 'POST',
+    headers: {
+    'Content-Type': 'application/json'
+  },
+    body: JSON.stringify({
+      username: 'Roxy',
+      content: `\`${pkg}\` AUR package updated to version \`${version}\``
+    })
+  });
 }
 
 const newVersion = await getLatestVer();
 
 if (newVersion !== curVersion) {
-  updatePackages(pkgList, newVersion);
+  await updatePackages(pkgList, newVersion);
 }
