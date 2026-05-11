@@ -1,6 +1,7 @@
 {
   "tasks": {
-    "start": "deno run -A src/mod.ts"
+    "advancey": "deno run -A src/advancey.ts",
+    "dusk": "deno run -A src/dusk.ts"
   },
   "imports": {
     "@roka/github": "jsr:@roka/github@^0.3.1"

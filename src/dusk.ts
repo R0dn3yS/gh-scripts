@@ -2,15 +2,14 @@ import { github } from '@roka/github';
 import { config } from '../config.ts';
 
 const pkgList = [
-  'advancely',
-  'advancely-bin'
+  'tp-dusk'
 ]
 
 const curVersion = Deno.readTextFileSync(`aur/${pkgList[0]}/PKGBUILD`).split('\n')[3].split('=')[1];
 const webhookUrl = config.webhookUrl;
 
 async function getLatestVer() {
-  const repo = github().repos.get('LNXSeus', 'Advancely');
+  const repo = github().repos.get('TwilitRealm', 'dusk');
   const releases = await repo.releases.list();
 
   return releases[0].tag.substring(1);
@@ -24,7 +23,7 @@ async function updatePackages(list: string[], version: string) {
 
     Deno.writeTextFileSync(`aur/${pkg}/PKGBUILD`, PKGBUILD);
 
-    const command = new Deno.Command('./push.sh', {
+    const command = new Deno.Command('./push_dusk.sh', {
       args: [
         pkg,
         version
@@ -37,7 +36,7 @@ async function updatePackages(list: string[], version: string) {
 
     const _status = await child.status;
 
-    await sendWebhookMessage(pkg, newVersion);
+    await sendWebhookMessage(pkg, version);
   }
 }
 
@@ -49,7 +48,7 @@ async function sendWebhookMessage(pkg: string, version: string) {
   },
     body: JSON.stringify({
       username: 'Roxy',
-      content: `\`${pkg}\` AUR package updated to version \`${version}\``
+      content: `<@325254775828512778> \`${pkg}\` AUR package updated to version \`${version}\``
     })
   });
 }
