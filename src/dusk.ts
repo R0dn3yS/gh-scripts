@@ -5,7 +5,7 @@ const pkgList = [
   'tp-dusk'
 ]
 
-const curVersion = Deno.readTextFileSync(`aur/${pkgList[0]}/PKGBUILD`).split('\n')[3].split('=')[1];
+const curVersion = Deno.readTextFileSync(`aur/${pkgList[0]}/PKGBUILD`).split('\n')[4].split('=')[1];
 const webhookUrl = config.webhookUrl;
 
 async function getLatestVer() {
