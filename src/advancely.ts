@@ -19,8 +19,10 @@ async function getLatestVer() {
 async function updatePackages(list: string[], version: string) {
   for (const pkg of list) {
     let PKGBUILD = Deno.readTextFileSync(`aur/${pkg}/PKGBUILD`);
+    const oldPkgrel = PKGBUILD.split('\n')[5];
 
     PKGBUILD = PKGBUILD.replace(curVersion, newVersion);
+    PKGBUILD = PKGBUILD.replace(oldPkgrel, 'pkgrel=1');
 
     Deno.writeTextFileSync(`aur/${pkg}/PKGBUILD`, PKGBUILD);
 

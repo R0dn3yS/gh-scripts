@@ -9,7 +9,7 @@ const curVersion = Deno.readTextFileSync(`aur/${pkgList[0]}/PKGBUILD`).split('\n
 const webhookUrl = config.webhookUrl;
 
 async function getLatestVer() {
-  const repo = github().repos.get('TwilitRealm', 'dusk');
+  const repo = github().repos.get('TwilitRealm', 'dusklight');
   const releases = await repo.releases.list();
 
   return releases[0].tag.substring(1);
@@ -18,12 +18,14 @@ async function getLatestVer() {
 async function updatePackages(list: string[], version: string) {
   for (const pkg of list) {
     let PKGBUILD = Deno.readTextFileSync(`aur/${pkg}/PKGBUILD`);
+    const oldPkgrel = PKGBUILD.split('\n')[5];
 
     PKGBUILD = PKGBUILD.replace(curVersion, newVersion);
+    PKGBUILD = PKGBUILD.replace(oldPkgrel, 'pkgrel=1');
 
     Deno.writeTextFileSync(`aur/${pkg}/PKGBUILD`, PKGBUILD);
 
-    const command = new Deno.Command('./push_dusk.sh', {
+    const command = new Deno.Command('./push_dusklight.sh', {
       args: [
         pkg,
         version
