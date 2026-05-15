@@ -1,6 +1,6 @@
 {
   "tasks": {
-    "advancey": "deno run -A src/advancey.ts",
+    "advancely": "deno run -A src/advancely.ts",
     "dusklight": "deno run -A src/dusklight.ts"
   },
   "imports": {
