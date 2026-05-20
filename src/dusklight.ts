@@ -2,10 +2,10 @@ import { github } from '@roka/github';
 import { config } from '../config.ts';
 
 const pkgList = [
-  'tp-dusk'
+  'dusklight'
 ]
 
-const curVersion = Deno.readTextFileSync(`aur/${pkgList[0]}/PKGBUILD`).split('\n')[4].split('=')[1];
+const curVersion = Deno.readTextFileSync(`aur/${pkgList[0]}/PKGBUILD`).split('\n')[3].split('=')[1];
 const webhookUrl = config.webhookUrl;
 
 async function getLatestVer() {
@@ -18,7 +18,7 @@ async function getLatestVer() {
 async function updatePackages(list: string[], version: string) {
   for (const pkg of list) {
     let PKGBUILD = Deno.readTextFileSync(`aur/${pkg}/PKGBUILD`);
-    const oldPkgrel = PKGBUILD.split('\n')[5];
+    const oldPkgrel = PKGBUILD.split('\n')[4];
 
     PKGBUILD = PKGBUILD.replace(curVersion, newVersion);
     PKGBUILD = PKGBUILD.replace(oldPkgrel, 'pkgrel=1');
